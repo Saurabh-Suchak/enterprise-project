@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastodon Post Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        textarea, input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        button {
+            padding: 10px;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Mastodon Post Manager</h1>
+
+<div>
+    <h2>Create Post</h2>
+    <textarea id="createStatus" placeholder="Write your post here..."></textarea>
+    <button onclick="createPost()">Create Post</button>
+</div>
+
+<div>
+    <h2>Retrieve Post</h2>
+    <input type="text" id="retrieveId" placeholder="Enter post ID" />
+    <button onclick="retrievePost()">Retrieve Post</button>
+    <p id="retrievedPost"></p>
+</div>
+
+<div>
+    <h2>Delete Post</h2>
+    <input type="text" id="deleteId" placeholder="Enter post ID to delete" />
+    <button onclick="deletePost()">Delete Post</button>
+    <p id="deleteMessage"></p>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:3000'; // Change this if your server runs on a different URL
+
+    async function createPost() {
+        const status = document.getElementById('createStatus').value;
+        try {
+            const response = await fetch(`${API_URL}/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status })
+            });
+            const data = await response.json();
+            console.log('Post created:', data);
+            document.getElementById('createStatus').value = ''; // Clear input field
+        } catch (error) {
+            console.error('Error creating post:', error);
+        }
+    }
+
+    async function retrievePost() {
+        const postId = document.getElementById('retrieveId').value;
+        try {
+            const response = await fetch(`${API_URL}/retrieve/${postId}`);
+            const data = await response.json();
+            if (data) {
+                document.getElementById('retrievedPost').innerText = `Retrieved Post: ${data.content}`;
+            } else {
+                document.getElementById('retrievedPost').innerText = 'Post not found';
+            }
+            document.getElementById('retrieveId').value = ''; // Clear input field
+        } catch (error) {
+            console.error('Error retrieving post:', error);
+        }
+    }
+
+    async function deletePost() {
+        const postId = document.getElementById('deleteId').value;
+        try {
+            const response = await fetch(`${API_URL}/delete/${postId}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            document.getElementById('deleteMessage').innerText = data.message || 'Post deleted successfully';
+            document.getElementById('deleteId').value = ''; // Clear input field
+        } catch (error) {
+            console.error('Error deleting post:', error);
+        }
+    }
+</script>
+
+</body>
+</html>
