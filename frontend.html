@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+<!-- Author : Dharmesh Chawda -->
 <body>
   <div class="container mt-5">
     <h1 class="text-center mb-4">Mastodon Service Assignment</h1>
@@ -64,11 +65,11 @@
     </div>
   </div>
 
+
+  <!-- Author : Preetam Maske -->
   <script>
-    const API_URL = 'http://localhost:3000'; // Ensure this points to your backend
-
-    
-
+    const API_URL = 'http://localhost:3000'; // Ensure this points to your backend   
+    // Description : Function call to Create a post.
     async function createPost() {
     const status = document.getElementById('postContent').value; // Corrected the element ID here
     if (!status.trim()) {
@@ -99,10 +100,7 @@
         alert('Error creating post: ' + error.message);
     }
 }
-
-
-
-
+    // Description : Function call to Retrieve a post
     async function retrievePost() {
     const postId = document.getElementById('postIdRetrieve').value;
     if (!postId.trim()) {
@@ -128,8 +126,7 @@
         alert('Error retrieving post: ' + error.message);
     }
 }
-
-
+    // Description : Function call to delete a post
     async function deletePost() {
       const postId = document.getElementById('postIdDelete').value;
       if (!postId.trim()) {

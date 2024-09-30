@@ -1,8 +1,10 @@
+// Author : Saurabh Suchak
+
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const app = express();
-
+// const cors = require('cors');
 app.use(express.json());
 const cors = require('cors');
 app.use(cors());
@@ -15,7 +17,7 @@ const headers = {
   'Authorization': `Bearer ${ACCESS_TOKEN}`
 };
 
-// Create Post
+// create a new post on Mastodon instance
 app.post('/create', async (req, res) => {
   const { status } = req.body;
   try {
@@ -23,13 +25,12 @@ app.post('/create', async (req, res) => {
       { status }, 
       { headers });
     res.status(200).json(response.data);
-    console.log('Mastodon API Response:', response.data); // Log the response
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Retrieve Post
+// Fetch the post by querying the API
 app.get('/retrieve/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -40,7 +41,7 @@ app.get('/retrieve/:id', async (req, res) => {
   }
 });
 
-// Delete Post
+// Delete Post using the Mastodon API
 app.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -55,3 +56,6 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+module.exports = app;
+
