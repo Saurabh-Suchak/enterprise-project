@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const app = express();
-// const cors = require('cors');
+
 app.use(express.json());
 const cors = require('cors');
 app.use(cors());
@@ -23,6 +23,7 @@ app.post('/create', async (req, res) => {
       { status }, 
       { headers });
     res.status(200).json(response.data);
+    console.log('Mastodon API Response:', response.data); // Log the response
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
